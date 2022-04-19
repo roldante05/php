@@ -34,7 +34,7 @@ $aPacientes[] = array(
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -48,28 +48,29 @@ $aPacientes[] = array(
 
     <main class="container">
         <div class="row">
-            <table class="table table-hover mt-5">
-
-                <tr>
-                    <th>DNI</th>
-                    <th>Nombre y Apellido</th>
-                    <th>Edad</th>
-                    <th>Peso</th>
-                </tr>
-                <?php
-                foreach ($aPacientes as $pos => $paciente) {
-
-                ?>
+            <div class="col-sm-12">
+                <table class="table table-hover mt-5">
                     <tr>
-                        <td><?php echo $paciente["dni"] ?></td>
-                        <td><?php echo $paciente["nombre"] ?></td>
-                        <td><?php echo $paciente["edad"] ?></td>
-                        <td><?php echo $paciente["peso"] ?></td>
+                        <th>DNI</th>
+                        <th>Nombre y Apellido</th>
+                        <th>Edad</th>
+                        <th>Peso</th>
                     </tr>
-                <?php
-                }
-                ?>
-            </table>
+                    <?php
+                    foreach ($aPacientes as $pos => $paciente) {
+
+                    ?>
+                        <tr>
+                            <td><?php echo $paciente["dni"] ?></td>
+                            <td><?php echo $paciente["nombre"] ?></td>
+                            <td><?php echo $paciente["edad"] ?></td>
+                            <td><?php echo $paciente["peso"] ?></td>
+                        </tr>
+                    <?php
+                    }
+                    ?>
+                </table>
+            </div>
         </div>
     </main>
 

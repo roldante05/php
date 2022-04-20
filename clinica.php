@@ -49,6 +49,9 @@ $aPacientes[] = array(
     <main class="container">
         <div class="row">
             <div class="col-sm-12">
+                <div class="text-center my-4">
+                    <h1>Listado de pacientes</h1>
+                </div>
                 <table class="table table-hover mt-5">
                     <tr>
                         <th>DNI</th>

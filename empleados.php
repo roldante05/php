@@ -1,13 +1,29 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $aEmpleados = array();
 $aEmpleados[] = array("dni" => 33300123, "nombre" => "David Garcia", "bruto" => 85000.30);
 $aEmpleados[] = array("dni" => 40874456, "nombre" => "Ana Dell Valle", "bruto" => 90000);
 $aEmpleados[] = array("dni" => 67567565, "nombre" => "Andres Perez", "bruto" => 1000000);
 $aEmpleados[] = array("dni" => 75744545, "nombre" => "Victoria Luz", "bruto" => 70000);
 
+function contador($aArray)
+{
+    $contador = 0;
+    foreach ($aArray as $array) {
+        $contador = $contador + 1;
+    }
+    return $contador . "<br>";
+}
 
-
+function calcularNeto($bruto)
+{
+    $neto = $bruto - ($bruto * 0.17);
+    return $neto;
+}
 
 ?>
 
@@ -38,20 +54,17 @@ $aEmpleados[] = array("dni" => 75744545, "nombre" => "Victoria Luz", "bruto" => 
                     </tr>
                     <?php
                     foreach ($aEmpleados as $pos => $empleado) {
-
                     ?>
                         <tr>
                             <td><?php echo number_format($empleado["dni"], 0, ".", ".") ?></td>
                             <td><?php echo strtoupper($empleado["nombre"]) ?></td>
-                            <td><?php echo number_format($empleado["bruto"], 0, ".", ".") ?></td>
-
-
-
+                            <td><?php echo number_format(calcularNeto($empleado["bruto"]), 2, ".", ".") ?></td>
                         </tr>
                     <?php
                     }
                     ?>
                 </table>
+                <h3><?php echo "Cantidad de empleados activos: " . contador($aEmpleados) ?></h3>
             </div>
         </div>
     </main>

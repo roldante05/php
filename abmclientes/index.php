@@ -34,16 +34,50 @@ if ($_POST) {
     $dni = $_POST["txtDni"];
     $correo = $_POST["txtCorreo"];
     $telefono = $_POST["txtTelefono"];
-    $nombreImagen = ["txtArchivo"];
+    $nombreImagen = "";
+
+    if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK) {
+
+        $nombreAleatorio = date("Ymdhmsi") . rand(1000, 2000); //202205171842371010
+        $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //C:\tmp\ghjuy6788765
+        $extension = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
+        if ($extension == "jpg" || $extension == "png" || $extension == "jpeg") {
+            $nombreImagen = "$nombreAleatorio.$extension";
+            move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen");
+        }
+    }
 
 
-    $aClientes[] = array(
-        "dni" => $dni,
-        "nombre" => $nombre,
-        "telefono" => $telefono,
-        "correo" => $correo,
-        "imagen" => $nombreImagen
-    );
+
+    if ($id >= 0) {
+        // Si no se subio una imagen y estoy editando conservar en $nombreImagen el nombre
+        // de la imagen anterior que esta asociada al cliente que estamos editando
+        if ($_FILES["archivo"]["error"] !== UPLOAD_ERR_OK) {
+            $nombreImagen = $aClientes[$id]["imagen"];
+        } else {
+            if (file_exists("imagenes/" . $aClientes[$id]["imagen"])) {
+                unlink("imagenes/" . $aClientes[$id]["imagen"]);
+            }
+        }
+
+        $aClientes[$id] = array(
+            "dni" => $dni,
+            "nombre" => $nombre,
+            "telefono" => $telefono,
+            "correo" => $correo,
+            "imagen" => $nombreImagen
+        );
+    } else {
+        $aClientes[] = array(
+            "dni" => $dni,
+            "nombre" => $nombre,
+            "telefono" => $telefono,
+            "correo" => $correo,
+            "imagen" => $nombreImagen
+        );
+    }
+
+
 
     $strJson = json_encode($aClientes);
 
@@ -77,7 +111,6 @@ if ($_POST) {
         <div class="row">
             <div class="col-sm-6">
                 <form action="" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
                     <div class="pb-3">
                         <label for="txtDni">DNI:*</label>
                         <input type="text" for="txtDni" name="txtDni" class="form-control" value="<?php echo isset($aClientes[$id]) ? $aClientes[$id]["dni"] : ""; ?>">
@@ -96,12 +129,12 @@ if ($_POST) {
                     </div>
                     <div class="pb-3">
                         <label for="txtArchivo">Archivo adjunto:*</label>
-                        <input type="file" for="txtArchivo" name="txtArchivo" class="form-control">
+                        <input type="file" for="txtArchivo" name="archivo" class="form-control">
                         <label for="txtArchivo">Archivos admitidos: .jpg, .jpeg, .png</label>
                     </div>
                     <div class="pb-3">
                         <button type="submit" class=" btn btn-primary ">Guardar</button>
-                        <button type="submit" class=" btn btn-danger ">NUEVO</button>
+                        <a href="index.php" class=" btn btn-danger ">NUEVO</a>
                     </div>
                 </form>
             </div>
@@ -117,7 +150,7 @@ if ($_POST) {
                     </tr>
                     <?php foreach ($aClientes as $pos => $cliente) { ?>
                         <tr>
-                            <td> <img src="imagenes/ <?php echo $cliente["imagen"]; ?>" class="img-thumnail"> </td>
+                            <td> <img src="imagenes/<?php echo $cliente["imagen"]; ?>" class="img-thumbnail"> </td>
                             <td><?php echo $cliente["dni"]; ?></td>
                             <td><?php echo $cliente["nombre"]; ?></td>
                             <td><?php echo $cliente["telefono"]; ?></td>

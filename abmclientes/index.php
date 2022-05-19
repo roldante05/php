@@ -3,27 +3,37 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+
 if (file_exists("archivo.txt")) {
+    //Si el archivo existe, cargo las clientes en la variable aClientes
     $strJson = file_get_contents("archivo.txt");
     $aClientes = json_decode($strJson, true);
 } else {
+    //Si el archivo no existe es porque no hay clientes
     $aClientes = array();
 }
 
+
+
+
 if (isset($_GET["id"])) {
+    //Si viene el "$id" lo carga
     $id = $_GET["id"];
 } else {
+    // en caso de  que no lo carga es vacio
     $id = "";
 }
 
 
 if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
+    //Elimina el ultima cientey el id 
     unset($aClientes[$id]);
-
+    //Convierte aClientes en json
     $strJson = json_encode($aClientes);
-
+    //Almacena el json en el archivo.txt
     file_put_contents("archivo.txt", $strJson);
-
+    //Redirecciona ala misma pagina
     header("Location: index.php");
 }
 
@@ -68,6 +78,7 @@ if ($_POST) {
             "imagen" => $nombreImagen
         );
     } else {
+        //Se inserta una nueva tarea
         $aClientes[] = array(
             "dni" => $dni,
             "nombre" => $nombre,
@@ -78,9 +89,9 @@ if ($_POST) {
     }
 
 
-
+    //Convertir el array de clientes ns json
     $strJson = json_encode($aClientes);
-
+    //Almacenar en un archivo.txt el json con file_put_contents
     file_put_contents("archivo.txt", $strJson);
 }
 

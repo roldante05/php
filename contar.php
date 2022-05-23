@@ -60,7 +60,7 @@ $aProductos[] = array(
 function contar($aArray)
 {
     $contador = 0;
-    foreach ($aArray as $array) {
+    foreach ($aArray as $item) {
         $contador = $contador + 1;
     }
     return $contador . "<br>";

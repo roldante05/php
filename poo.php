@@ -169,10 +169,10 @@ $alumno2->notaPortfolio = 8;
 $alumno2->notaProyecto = 9;
 $alumno2->imprimir();
 
-$docente =  new Docente();
-$docente->nombre = "Gabriel Fabri";
+$docente =  new Docente("Gabriel Fabri", "44562451", Docente::ESPECIALIDAD_ECO);
+// $docente->nombre = "Gabriel Fabri";
 $docente->nacionalidad = "Argentina";
-$docente->especialidad = Docente::ESPECIALIDAD_ECO;
+// $docente->especialidad = Docente::ESPECIALIDAD_ECO;
 $docente->profesion = "Profesor de Geografia";
 $docente->imprimir();
 $docente->imprimirEspecialidadesHabilitadas();
